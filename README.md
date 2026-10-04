@@ -22,6 +22,8 @@ The project follows a practical network-administration workflow: **configure →
 
 ## 🏗️ Lab Topology
 
+![Cisco Network Topology — Packet Tracer Lab](evidence/network-topology.png)
+
 **Devices**
 - 1 Cisco router — R1
 - 2 Cisco switches — SW1, SW2
