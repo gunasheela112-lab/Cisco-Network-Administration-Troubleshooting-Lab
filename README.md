@@ -117,36 +117,36 @@ A successful PC0 → R1 SSH login was verified in Packet Tracer.
 ## 📊 Verification Evidence
 
 ### IPv6 Connectivity
-![IPv6 Connectivity](ipv6-connectivity-pc0-to-r1.png)
+![IPv6 Connectivity](evidence/ipv6-connectivity-pc0-to-r1.png)
 
 ### Secure Remote Management
-![SSH Remote Management](ssh-remote-management-r1.png)
+![SSH Remote Management](evidence/ssh-remote-management-r1.png)
 
 ### NTP Synchronization
-![R1 NTP Master](ntp-r1-master-status.png)
-![SW1 NTP Client](ntp-sw1-client-status.png)
-![SW2 NTP Client](ntp-sw2-client-status.png)
+![R1 NTP Master](evidence/ntp-r1-master-status.png)
+![SW1 NTP Client](evidence/ntp-sw1-client-status.png)
+![SW2 NTP Client](evidence/ntp-sw2-client-status.png)
 
 ### Troubleshooting Evidence
-![Wrong VLAN Troubleshooting](wrong-vlan-troubleshooting-ping%20results.png)
-![EtherChannel Member Down](trunk-fault-etherchannel-member-down.png)
-![EtherChannel Recovery](trunk-fault-recovery.png)
-![Router Fault Root Cause](routing-fault-root-cause.png)
+![Wrong VLAN Troubleshooting](evidence/wrong-vlan-troubleshooting-ping%20results.png)
+![EtherChannel Member Down](evidence/trunk-fault-etherchannel-member-down.png)
+![EtherChannel Recovery](evidence/trunk-fault-recovery.png)
+![Router Fault Root Cause](evidence/routing-fault-root-cause.png)
 
 <details>
 <summary><strong>Additional verification screenshots</strong></summary>
 
 ### IPv6 Interface Status
-![IPv6 Interface Status](ipv6-r1-interface-status.png)
+![IPv6 Interface Status](evidence/ipv6-r1-interface-status.png)
 
 ### EtherChannel Connectivity Loss
-![EtherChannel Connectivity Loss](trunk-fault-connectivity-loss.png)
+![EtherChannel Connectivity Loss](evidence/trunk-fault-connectivity-loss.png)
 
 ### Trunk Status
-![Trunk Status](trunk-fault-trunk-status.png)
+![Trunk Status](evidence/trunk-fault-trunk-status.png)
 
 ### Router Connectivity Loss
-![Router Connectivity Loss](routing-fault-router-connectivity-loss.png)
+![Router Connectivity Loss](evidence/routing-fault-router-connectivity-loss.png)
 
 </details>
 
