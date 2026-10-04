@@ -8,7 +8,7 @@
 
 A practical Cisco Packet Tracer lab focused on **IPv6, secure device management, time synchronization, EtherChannel, and structured network troubleshooting**.
 
-The project combines configuration, verification, fault isolation, and recovery rather than only demonstrating initial connectivity.
+The project follows a practical network-administration workflow: **configure → verify → introduce a fault → isolate the cause → restore service → re-test**.
 
 ## 🎯 Project Highlights
 
@@ -16,9 +16,9 @@ The project combines configuration, verification, fault isolation, and recovery 
 - Implemented **SSH v2** for secure remote device management
 - Configured **NTP** with R1 as the master clock and SW1/SW2 as clients
 - Built and verified **LACP EtherChannel** between switches
-- Used Cisco IOS verification commands to identify interface, VLAN, trunk, and routing faults
-- Simulated real network faults, observed connectivity impact, identified root causes, and restored service
-- Preserved the working **Cisco Packet Tracer (.pkt)** topology for reproduction
+- Used Cisco IOS verification commands for interface, VLAN, trunk, and EtherChannel troubleshooting
+- Simulated three realistic network faults and documented their investigation, resolution, and recovery
+- Preserved the complete **Cisco Packet Tracer (.pkt)** topology for reproduction
 
 ## 🏗️ Lab Topology
 
@@ -33,6 +33,7 @@ The project combines configuration, verification, fault isolation, and recovery 
 - PC0 / PC1 connected to the switching network
 
 **IPv4 addressing**
+
 | Device | Interface | Address |
 |---|---|---|
 | R1 | Gi0/0 | 192.168.10.1/24 |
@@ -51,44 +52,116 @@ The project combines configuration, verification, fault isolation, and recovery 
 | Secure Management | SSH v2, local authentication, RSA keys, VTY access control |
 | Switching | VLANs, 802.1Q trunking, LACP EtherChannel |
 | Network Services | NTP master/client synchronization |
-| Troubleshooting | Ping testing, interface status, VLAN checks, trunk checks, EtherChannel verification |
+| Troubleshooting | Ping testing, VLAN checks, interface status, trunk checks, EtherChannel verification |
 | Cisco IOS | `show` commands, configuration verification, fault isolation and recovery |
 
 ## 🛠️ Troubleshooting Scenarios
 
-### 1. Wrong VLAN Assignment
-A switch access port was intentionally placed in the wrong VLAN to create a connectivity failure.
+The troubleshooting portion was completed as three deliberate fault-isolation exercises. Each scenario follows the same operational pattern:
 
-**Troubleshooting approach**
-1. Test connectivity and observe packet loss.
-2. Check VLAN membership and access-port configuration.
-3. Identify the incorrect VLAN assignment.
-4. Restore the correct VLAN.
-5. Re-test connectivity.
+**Problem → Investigation → Root Cause → Resolution → Verification**
 
-**Result:** Connectivity was restored after correcting the VLAN assignment.
+### Scenario 1 — Wrong VLAN Assignment
 
-### 2. EtherChannel / Trunk Fault
-One LACP EtherChannel member was intentionally taken offline.
+**Problem**
+
+An access port was intentionally placed in the wrong VLAN, causing the connected host to lose normal network connectivity.
+
+**Investigation**
+
+1. Tested connectivity and observed packet loss.
+2. Checked the switch VLAN/access-port configuration.
+3. Identified that the host port was assigned to the incorrect VLAN.
+
+**Resolution**
+
+The access port was returned to the correct VLAN.
 
 **Verification**
-- EtherChannel status showed one member down while the port-channel remained operational.
-- Trunk status was checked with `show interfaces trunk`.
-- Connectivity was tested during the fault and after recovery.
 
-**Result:** The failed member was restored and the EtherChannel returned to a healthy state.
+Connectivity was tested again after the correction and was restored successfully.
 
-### 3. Router Interface Fault
-R1 Gi0/0 was intentionally shut down to simulate a router-side connectivity failure.
+**Evidence**
 
-**Troubleshooting approach**
-1. Test connectivity to the router.
-2. Check `show ip interface brief`.
-3. Identify the administratively down interface.
-4. Restore the interface.
-5. Re-test connectivity.
+![Scenario 1 — Wrong VLAN Troubleshooting](evidence/wrong-vlan-troubleshooting-ping%20results.png)
 
-**Result:** Connectivity returned after Gi0/0 was restored.
+---
+
+### Scenario 2 — EtherChannel Member / Trunk Fault
+
+**Problem**
+
+One member interface of the LACP EtherChannel was intentionally taken offline to simulate a link fault and observe its effect on the network.
+
+**Investigation**
+
+1. Checked the EtherChannel summary and identified the affected member as down.
+2. Checked trunk status with `show interfaces trunk`.
+3. Tested connectivity while the member link was unavailable.
+4. Compared the state before and after restoring the member.
+
+**Resolution**
+
+The affected EtherChannel member interface was restored.
+
+**Verification**
+
+The EtherChannel returned to a healthy state and connectivity was restored.
+
+**Evidence**
+
+**Member fault detected**
+
+![Scenario 2 — EtherChannel Member Down](evidence/trunk-fault-etherchannel-member-down.png)
+
+**Connectivity during fault**
+
+![Scenario 2 — Connectivity Loss](evidence/trunk-fault-connectivity-loss.png)
+
+**Trunk verification**
+
+![Scenario 2 — Trunk Status](evidence/trunk-fault-trunk-status.png)
+
+**Recovery**
+
+![Scenario 2 — Connectivity Restored](evidence/trunk-fault-recovery.png)
+
+---
+
+### Scenario 3 — Router Interface Fault
+
+**Problem**
+
+R1 Gi0/0 was intentionally shut down to simulate a router-side interface failure.
+
+**Investigation**
+
+1. Tested connectivity to the router.
+2. Checked `show ip interface brief`.
+3. Identified Gi0/0 as administratively down.
+4. Confirmed that the interface state explained the connectivity failure.
+
+**Resolution**
+
+R1 Gi0/0 was restored to an operational state.
+
+**Verification**
+
+Connectivity was tested again and returned successfully.
+
+**Evidence**
+
+**Connectivity loss**
+
+![Scenario 3 — Router Connectivity Loss](evidence/routing-fault-router-connectivity-loss.png)
+
+**Root cause**
+
+![Scenario 3 — Router Interface Root Cause](evidence/routing-fault-root-cause.png)
+
+**Recovery**
+
+![Scenario 3 — Connectivity Restored](evidence/routing-fault-recovery.png)
 
 ## ⏱️ NTP Verification
 
@@ -98,7 +171,23 @@ R1 operates as the NTP master and SW1/SW2 synchronize against R1.
 - SW1: synchronized to **192.168.10.1**
 - SW2: synchronized to **192.168.10.1**
 
-This demonstrates practical centralized time synchronization across network devices.
+This demonstrates centralized time synchronization across the network devices.
+
+![R1 NTP Master Status](evidence/ntp-r1-master-status.png)
+
+![SW1 NTP Client Status](evidence/ntp-sw1-client-status.png)
+
+![SW2 NTP Client Status](evidence/ntp-sw2-client-status.png)
+
+## 🌐 IPv6 Verification
+
+IPv6 connectivity was verified from PC0 to R1 using the configured IPv6 address.
+
+![IPv6 Connectivity](evidence/ipv6-connectivity-pc0-to-r1.png)
+
+R1 interface status was also checked to confirm the configured IPv6 interface.
+
+![IPv6 Interface Status](evidence/ipv6-r1-interface-status.png)
 
 ## 🔐 SSH Verification
 
@@ -112,64 +201,38 @@ Configuration includes:
 - VTY local login
 - SSH-only VTY transport
 
-A successful PC0 → R1 SSH login was verified in Packet Tracer.
+A successful **PC0 → R1 SSH login** was verified in Packet Tracer.
 
-## 📊 Verification Evidence
-
-### IPv6 Connectivity
-![IPv6 Connectivity](evidence/ipv6-connectivity-pc0-to-r1.png)
-
-### Secure Remote Management
 ![SSH Remote Management](evidence/ssh-remote-management-r1.png)
-
-### NTP Synchronization
-![R1 NTP Master](evidence/ntp-r1-master-status.png)
-![SW1 NTP Client](evidence/ntp-sw1-client-status.png)
-![SW2 NTP Client](evidence/ntp-sw2-client-status.png)
-
-### Troubleshooting Evidence
-![Wrong VLAN Troubleshooting](evidence/wrong-vlan-troubleshooting-ping%20results.png)
-![EtherChannel Member Down](evidence/trunk-fault-etherchannel-member-down.png)
-![EtherChannel Recovery](evidence/trunk-fault-recovery.png)
-![Router Fault Root Cause](evidence/routing-fault-root-cause.png)
-
-<details>
-<summary><strong>Additional verification screenshots</strong></summary>
-
-### IPv6 Interface Status
-![IPv6 Interface Status](evidence/ipv6-r1-interface-status.png)
-
-### EtherChannel Connectivity Loss
-![EtherChannel Connectivity Loss](evidence/trunk-fault-connectivity-loss.png)
-
-### Trunk Status
-![Trunk Status](evidence/trunk-fault-trunk-status.png)
-
-### Router Connectivity Loss
-![Router Connectivity Loss](evidence/routing-fault-router-connectivity-loss.png)
-
-</details>
 
 ## 📁 Project Files
 
 - **Cisco Network Administration & Troubleshooting Lab.pkt** — complete Cisco Packet Tracer project
-- **PNG evidence files** — configuration, verification, fault-isolation, and recovery screenshots
+- **evidence/** — organized screenshots covering configuration verification, fault isolation, and recovery
 
 ## ▶️ How to Use
 
 1. Download the `.pkt` file from this repository.
 2. Open it with Cisco Packet Tracer.
 3. Inspect the topology and device configurations.
-4. Use the verification screenshots as reference.
+4. Review the evidence screenshots.
 5. Reproduce the troubleshooting scenarios if desired.
 
 ## 💡 What This Project Demonstrates
 
-This lab is designed around the workflow used in practical network administration:
+This lab demonstrates a practical approach to network administration rather than only initial configuration.
+
+The documented workflow is:
 
 **Configure → Verify → Test → Isolate the fault → Fix → Re-test**
 
-It demonstrates not only Cisco configuration knowledge, but also the ability to use network evidence and IOS diagnostics to troubleshoot connectivity problems systematically.
+The three troubleshooting scenarios demonstrate the ability to use connectivity tests and Cisco IOS evidence to identify faults at different layers of the network:
+
+- **Scenario 1:** VLAN/access-port configuration
+- **Scenario 2:** EtherChannel/trunk connectivity
+- **Scenario 3:** Router interface availability
+
+Together with IPv6, SSH, NTP, and LACP EtherChannel, the project demonstrates hands-on Cisco networking, verification, and structured troubleshooting.
 
 ---
 
