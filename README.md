@@ -1,5 +1,11 @@
 # Cisco Network Administration & Troubleshooting Lab
 
+![Cisco Packet Tracer](https://img.shields.io/badge/Cisco%20Packet%20Tracer-1BA0D7?logo=cisco&logoColor=white)
+![IPv6](https://img.shields.io/badge/IPv6-Enabled-blue)
+![SSH](https://img.shields.io/badge/SSH-v2-green)
+![NTP](https://img.shields.io/badge/NTP-Time%20Synchronization-orange)
+![EtherChannel](https://img.shields.io/badge/LACP-EtherChannel-purple)
+
 A practical Cisco Packet Tracer lab focused on **IPv6, secure device management, time synchronization, EtherChannel, and structured network troubleshooting**.
 
 The project combines configuration, verification, fault isolation, and recovery rather than only demonstrating initial connectivity.
