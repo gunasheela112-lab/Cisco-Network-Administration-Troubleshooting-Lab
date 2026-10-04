@@ -161,7 +161,7 @@ Connectivity was tested again and returned successfully.
 
 **Recovery**
 
-Recovery was verified after restoring R1 Gi0/0 and re-testing connectivity. No separate recovery screenshot is included because the referenced recovery image is not present in the repository.
+![Scenario 3 — Connectivity Restored](evidence/routing-fault-recovery.png)
 
 ## ⏱️ NTP Verification
 
